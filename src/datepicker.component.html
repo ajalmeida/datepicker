@@ -1,0 +1,156 @@
+<div class="form-group">
+    <div class="input-group">
+      <input type="text" class="form-control" 
+             [placeholder]="placeholder" 
+             [value]="view.value" 
+             readonly="readonly">
+      <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+    </div>
+    {{value}} -> {{level}}
+</div>
+<div class="datepicker" [attr.type]="type">
+    <div class="row">
+        <div class="date col-md-12" [class.col-md-7]="type == 'datetime'">
+            <div *ngIf="view.mode == 'day'">
+                <table class="table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="hover page-control" (click)="prev('month')">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </th>
+                            <th colspan="5" class="switch hover" (click)="switch()">{{view.months[view.month].name}} {{view.year}}</th>
+                            <th class="hover page-control" (click)="next('month')">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="weekday" *ngFor="let item of view.weekdays">{{item}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let group of group(view.days, 7)">
+                            <td class="day hover" 
+                                *ngFor="let item of group"
+                                [class.selected]="item.year == view.model.year && item.month == view.model.month && item.value == view.model.day"
+                                [class.grayed]="item.month !== view.month"
+                                [class.disabled]="item.disabled"
+                                (click)="setDay(item)">{{item.name}}</td>
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="view.mode == 'month'">
+                <table class="table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="hover page-control" (click)="prev('year')">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </th>
+                            <th class="switch hover" (click)="switch()">{{view.year}}</th>
+                            <th class="hover page-control" (click)="next('year')">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="table-condensed">
+                    <tbody>
+                        <tr *ngFor="let group of group(view.months, 4)">
+                            <td class="month hover" 
+                                *ngFor="let item of group"
+                                [class.selected]="item.value == view.model.month && view.year == view.model.year"
+                                [class.disabled]="item.disabled"
+                                (click)="setMonth(item)">{{item.name}}</td>
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="view.mode == 'year'">
+                <table class="table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="hover page-control" (click)="prev('years')">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </th>
+                            <th>{{view.years[0].name}} - {{view.years[view.years.length - 1].name}}</th>
+                            <th class="hover page-control" (click)="next('years')">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="table-condensed">
+                    <tbody>
+                        <tr *ngFor="let group of group(view.years, 2)">
+                            <td class="year hover" 
+                                *ngFor="let item of group"
+                                [class.selected]="item.value == view.model.year"
+                                [class.disabled]="item.disabled"
+                                (click)="setYear(item)">{{item.name}}</td>
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="time col-md-5" *ngIf="type == 'datetime'">
+            <div class="row">
+                <div class="col-md-7">
+                    <table class="table-condensed">
+                        <tbody>   
+                            <tr *ngFor="let group of group(view.hours, 3)">
+                                <td class="hour hover" 
+                                    *ngFor="let item of group" 
+                                    [class.selected]="item.value == view.model.hour"
+                                    [class.disabled]="item.disabled"
+                                    (click)="setHour(item)">{{item.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pull-left">
+                    <table class="table-condensed">
+                        <tbody>                            
+                            <tr *ngFor="let group of group(view.minutes, 2)">
+                                <td class="minute hover" 
+                                    *ngFor="let item of group"
+                                    [class.selected]="item.value == view.model.minute"
+                                    [class.disabled]="item.disabled"
+                                    (click)="setMinute(item)">{{item.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="text" class="form-control exact-minute" size="2" placeholder="Min" 
+                            [(ngModel)]="view.model.minute">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="zone" *ngIf="type == 'datetime'">
+        <hr/>
+        <table class="table-condensed">
+            <tbody>
+                <tr>
+                    <td class="hover page-control" 
+                        [class.disabled]="view.tzPage <= 0"
+                        (click)="prev('timezones')">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </td>
+                    <td class="timezone hover" 
+                        *ngFor="let item of view.timezones"
+                        [class.selected]="item.offset == view.model.timezone"
+                        [class.disabled]="item.disabled"
+                        (click)="setTimezone(item)">{{item.name}}</td>
+                    <td class="hover page-control" 
+                        [class.disabled]="((view.tzPage + 1) * view.tzPerPage) >= timezones.length"
+                        (click)="next('timezones')">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </td>    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

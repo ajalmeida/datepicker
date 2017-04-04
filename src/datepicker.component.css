@@ -1,0 +1,111 @@
+.datepicker {
+    border: 1px solid rgba(0, 0, 0, 0.14902);
+    border-radius: 4px;
+    padding: 4px;
+    background-color: #fff;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none;   
+    -khtml-user-select: none;    
+    -moz-user-select: none;      
+    -ms-user-select: none;       
+}
+
+.datepicker {
+    width: 270px;
+}
+
+.datepicker[type="datetime"] {
+    width: 480px;
+}
+
+.datepicker td, .datepicker th {
+    font-size: 14px !important;
+    text-align: center;
+    min-width: 26px;
+    border-radius: 4px;
+}
+
+.datepicker td.selected, .datepicker th.selected {
+    color: #ffffff;
+    background-color: #3071a9;
+    border-color: #285e8e;
+}
+
+.datepicker td.grayed {
+    color: #999999;
+}
+
+.datepicker td.grayed.selected {
+    color: #ffffff;
+}
+
+.datepicker .disabled {
+    color: #999999;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.datepicker td.month {
+    padding: 22px 0;
+}
+
+.datepicker td.year {
+    padding: 10px 0;
+}
+
+.datepicker .switch {
+    text-align: center;
+}
+
+.datepicker .zone {
+    padding-top: 5px;
+}
+
+.datepicker .time .col-md-7 {
+    padding-left: 0px !important;
+}
+
+.datepicker .hover:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.datepicker .hover.selected:hover {
+    background-color: #285e8e;
+    border-color: #193c5a;   
+}
+
+.datepicker .hover.disabled:hover {
+    background-color: transparent;
+    cursor: not-allowed;
+    border-radius: 0;
+}
+
+.datepicker .exact-minute {
+    margin-top: 5px;
+    width: 65px;
+    text-align: center;
+}
+
+.datepicker table {
+    width: 100%;
+}
+
+.datepicker .page-control {
+    width: 32px;
+    max-width: 32px;
+}
+
+.datepicker .page-control span {
+    font-size: 12px;
+}
+
+.datepicker .page-control.disabled span {
+    color: #999999;
+}
+
+.datepicker hr {
+    margin: 10px 0 2px 0;
+}
